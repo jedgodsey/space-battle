@@ -7,10 +7,6 @@
 
 // - If you retreat, the game is over, perhaps leaving the game open for further developments or options.
 
-// - You win the game if you destroy all of the aliens.
-
-// - You lose the game if you are destroyed.
-
 // ### Ship Properties
 
 // * **hull** is the same as hitpoints. If hull reaches `0` or less, the ship is destroyed.
@@ -43,8 +39,8 @@ const ga = {
 let aliens = [];
 for (let i = 0; i < 6; i++) {
     aliens.push({
-        hull: (Math.random() * 3) + 3,
-        firepower: (Math.random() * 2) + 2,
+        hull: Math.round(Math.random() * 3) + 3,
+        firepower: Math.round(Math.random() * 2) + 2,
         accuracy: (Math.random() * .2) + .6
     });
 }
@@ -54,8 +50,10 @@ let exchange = () => {
     while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) {
         let exchange = 0;
         while (aliens[alienNum].hull > 0 && aliens[alienNum].hull > 0) {
-            aliens[alienNum].hull -= ga.accuracy;
-            ga.hull -= aliens[alienNum].accuracy;
+            Math.random() < ga.accuracy ? aliens[alienNum].hull-= ga.firepower : null;
+            Math.random() < aliens[alienNum].accuracy ? ga.hull-= aliens[alienNum].firepower : null;
+            // aliens[alienNum].hull -= ga.accuracy;
+            // ga.hull -= aliens[alienNum].accuracy;
             exchange++
         }
         alienNum++
