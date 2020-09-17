@@ -2,13 +2,6 @@
 
 // There are six alien ships. The aliens' weakness is that they are too logical and attack one at a time: they will wait to see the outcome of a battle before deploying another alien ship. Your strength is that you have the initiative and get to attack first. However, you do not have targeting lasers and can only attack the aliens in order. After you have destroyed a ship, you have the option to make a hasty retreat.
 
-// ### A game round would look like this:
-
-// - You attack the first alien ship
-// - If the ship survives, it attacks you
-// - If you survive, you attack the ship again
-// - If it survives, it attacks you again
-// - Etc.
 
 // - If you destroy the ship, you have the option to **attack** the next ship or to **retreat**
 
@@ -47,27 +40,32 @@ const ga = {
     accuracy: .7
 };
 
-let alien = {
-    hull: 3,
-    firepower: 2,
-    accuracy: .6
+let aliens = [];
+for (let i = 0; i < 6; i++) {
+    aliens.push({
+        hull: (Math.random() * 3) + 3,
+        firepower: (Math.random() * 2) + 2,
+        accuracy: (Math.random() * .2) + .6
+    });
 }
 
 let exchange = () => {
-    alien = {
-        hull: Math.ceil(Math.random() * 3) + 3,
-        firepower: Math.ceil(Math.random() * 2) + 2,
-        accuracy: Math.ceil(Math.random() * .2) + .6
-    }
-    for (let volleys = 1; alien.hull > 0 && ga.hull > 0; volleys++) {
-        alien.hull -= ga.accuracy;
-        ga.hull -= alien.accuracy;
+    let alienNum = 0;
+    while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) {
+        let exchange = 0;
+        while (aliens[alienNum].hull > 0 && aliens[alienNum].hull > 0) {
+            aliens[alienNum].hull -= ga.accuracy;
+            ga.hull -= aliens[alienNum].accuracy;
+            exchange++
+        }
+        alienNum++
     }
 }
 
 exchange();
 console.log(ga);
-console.log(alien);
+console.log(aliens);
+
 
 // ## &#x1F47E; &#x1F47E; &#x1F47E; Code quality and code sharing
 
