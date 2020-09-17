@@ -25,8 +25,8 @@ for (let i = 0; i < 6; i++) {
 let war = () => {
     let alienNum = 0;
     while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0 && alienNum < 1) {
-        let fightFlight = true;
-        let alienNum2 = 0;
+        let fightFlight = false;
+        do {let alienNum2 = 0;
         let battle = () => {
             let volley = 0;
             let exchange = () => {
@@ -40,7 +40,8 @@ let war = () => {
             alienNum2++
         }
         alienNum++
-        fightFlight ? battle(fightFlight) : null;
+        battle();}
+        while (fightFlight);
     }
 }
 
