@@ -1,34 +1,11 @@
 // # &#x1F680; SPECIFICATIONS
 
-// There are six alien ships. The aliens' weakness is that they are too logical and attack one at a time: they will wait to see the outcome of a battle before deploying another alien ship. Your strength is that you have the initiative and get to attack first. However, you do not have targeting lasers and can only attack the aliens in order. After you have destroyed a ship, you have the option to make a hasty retreat.
-
-
 // - If you destroy the ship, you have the option to **attack** the next ship or to **retreat**
 
 // - If you retreat, the game is over, perhaps leaving the game open for further developments or options.
 
 // ### Ship Properties
 
-// * **hull** is the same as hitpoints. If hull reaches `0` or less, the ship is destroyed.
-
-// * **firepower** is the amount of damage done to the **hull** of the target with a successful hit.
-
-// * **accuracy** is the chance between 0 and 1 that the ship will hit its target.
-
-// **The alien ships** should each have the following _ranged_ properties determined randomly:
-
-// * hull - between `3` and `6`
-// * firepower - between `2` and `4`
-// * accuracy - between `.6` and `.8`
-
-// You could be battling six alien ships each with unique values. 
-
-// Example use of **accuracy** to determine a hit:
-
-// ```javascript
-// if (Math.random() < alien[0].accuracy) {
-// 	console.log('You have been hit!');
-// }
 
 const ga = {
     hull: 20,
@@ -45,22 +22,29 @@ for (let i = 0; i < 6; i++) {
     });
 }
 
-let exchange = () => {
+let war = () => {
     let alienNum = 0;
-    while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) {
-        let exchange = 0;
-        while (aliens[alienNum].hull > 0 && aliens[alienNum].hull > 0) {
-            Math.random() < ga.accuracy ? aliens[alienNum].hull-= ga.firepower : null;
-            Math.random() < aliens[alienNum].accuracy ? ga.hull-= aliens[alienNum].firepower : null;
-            // aliens[alienNum].hull -= ga.accuracy;
-            // ga.hull -= aliens[alienNum].accuracy;
-            exchange++
+    while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0 && alienNum < 1) {
+        let fightFlight = true;
+        let alienNum2 = 0;
+        let battle = () => {
+            let volley = 0;
+            let exchange = () => {
+                while (aliens[alienNum2].hull > 0 && aliens[alienNum2].hull > 0) {
+                    Math.random() < ga.accuracy ? aliens[alienNum2].hull-= ga.firepower : null;
+                    Math.random() < aliens[alienNum2].accuracy ? ga.hull-= aliens[alienNum2].firepower : null;
+                    volley++
+                }
+            }
+            exchange();
+            alienNum2++
         }
         alienNum++
+        fightFlight ? battle(fightFlight) : null;
     }
 }
 
-exchange();
+war();
 console.log(ga);
 console.log(aliens);
 
