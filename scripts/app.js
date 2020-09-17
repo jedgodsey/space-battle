@@ -54,6 +54,11 @@ let alien = {
 }
 
 let exchange = () => {
+    alien = {
+        hull: Math.ceil(Math.random() * 3) + 3,
+        firepower: Math.ceil(Math.random() * 2) + 2,
+        accuracy: Math.ceil(Math.random() * .2) + .6
+    }
     for (let volleys = 1; alien.hull > 0 && ga.hull > 0; volleys++) {
         alien.hull -= ga.accuracy;
         ga.hull -= alien.accuracy;
