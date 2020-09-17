@@ -54,13 +54,15 @@ let alien = {
 }
 
 let exchange = () => {
-    alien.hull *= ga.accuracy;
-    ga.hull *= alien.accuracy;
+    for (let volleys = 1; alien.hull > 0 && ga.hull > 0; volleys++) {
+        alien.hull -= ga.accuracy;
+        ga.hull -= alien.accuracy;
+    }
 }
 
 exchange();
-console.log(ga.hull);
-console.log(alien.hull);
+console.log(ga);
+console.log(alien);
 
 // ## &#x1F47E; &#x1F47E; &#x1F47E; Code quality and code sharing
 
