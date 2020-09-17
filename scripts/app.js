@@ -7,7 +7,7 @@ const ga = {
 };
 
 // determines alien force characteristics
-let alienQuant = Math.ceil(Math.random() * 10);
+let alienQuant = Math.ceil(Math.random() * 20);
 let aliens = [];
 for (let i = 0; i < alienQuant; i++) {
     aliens.push({
@@ -19,7 +19,7 @@ for (let i = 0; i < alienQuant; i++) {
 
 //order of battle
 let war = () => {
-    ga.hull += Math.ceil(Math.random() * 5);
+    ga.hull += Math.ceil(Math.random() * 10);
     let alienNum = 0;
     let targetShip = 0
     while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) {
@@ -27,12 +27,17 @@ let war = () => {
             let volley = 0;
             while (ga.hull > 0 && aliens[alienNum].hull > 0) {
                 Math.random() < ga.accuracy ? aliens[targetShip].hull-= ga.firepower : null;
-                Math.random() < aliens[alienNum].accuracy ? ga.hull-= aliens[alienNum].firepower : null;
+                let randomSize = Math.ceil(Math.random() * aliens.length);
+                let randomAttack = (ship) => {
+                    Math.random() < aliens[alienNum].accuracy ? ga.hull-= aliens[alienNum].firepower : null;
+                }
+                for (let j = 1; j < randomSize; j++) {
+                    randomAttack(aliens[Math.floor(Math.random() * aliens.length)]);
+                }
                 volley++
             }
         }
         exchange();
-        // let remaining = aliens.map(item => item.hull).map(item => aliens.indexOf(item));
         targetShip = prompt(`There's still ships threatening earth! Press 1-${aliens.length} fire your laser at one of the ships, or press any other key to retreat.`, );
         if (targetShip >= 0 && targetShip <= aliens.length - 1) {
             alienNum++
@@ -46,9 +51,6 @@ war();
 console.log(ga);
 console.log(aliens);
 
-// * Scientists have improved your ship's shields. They don't work that consistently, and only improve your hit points by a random number each time
-
-// * Scientists have put missiles on your ship. You only have a limited number of them, but they do a lot of damage. You can say before each battle if you want to use one of your missles.
 
 // * The aliens have gained emotions and now can attack more than one at a time.
 
