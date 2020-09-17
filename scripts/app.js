@@ -1,10 +1,12 @@
-// Space Battle
+// SPACE BATTLE //
 
 const ga = {
     hull: 20,
     firepower: 5,
     accuracy: .7
 };
+
+// determines alien force characteristics
 let alienQuant = Math.ceil(Math.random() * 10);
 let aliens = [];
 for (let i = 0; i < alienQuant; i++) {
@@ -15,20 +17,23 @@ for (let i = 0; i < alienQuant; i++) {
     });
 }
 
+//order of battle
 let war = () => {
     let alienNum = 0;
+    let targetShip = 0
     while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) {
         let exchange = () => {
             let volley = 0;
             while (ga.hull > 0 && aliens[alienNum].hull > 0) {
-                Math.random() < ga.accuracy ? aliens[alienNum].hull-= ga.firepower : null;
+                Math.random() < ga.accuracy ? aliens[targetShip].hull-= ga.firepower : null;
                 Math.random() < aliens[alienNum].accuracy ? ga.hull-= aliens[alienNum].firepower : null;
                 volley++
             }
         }
         exchange();
-        let answer = prompt(`There's another alien ship! Press 'f' to keep fighting or any other key to retreat.`, );
-        if (answer == 'f') {
+        // let remaining = aliens.map(item => item.hull).map(item => aliens.indexOf(item));
+        targetShip = prompt(`There's still ships threatening earth! Press 1-${aliens.length} fire your laser at one of the ships, or press any other key to retreat.`, );
+        if (targetShip >= 0 && targetShip <= aliens.length - 1) {
             alienNum++
         } else {
             break;
@@ -39,11 +44,6 @@ let war = () => {
 war();
 console.log(ga);
 console.log(aliens);
-
-
-
-
-// * The aliens send a random number of ships to attack Earth. Think of a reasonable range and implement it.
 
 // * Scientists have developed a super targeting computer for your lasers. You now are asked which of the aliens you would like to hit with your lasers.
 
