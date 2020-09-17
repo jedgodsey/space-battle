@@ -1,20 +1,13 @@
-// # &#x1F680; SPECIFICATIONS
-
-// - If you destroy the ship, you have the option to **attack** the next ship or to **retreat**
-
-// - If you retreat, the game is over, perhaps leaving the game open for further developments or options.
-
-// ### Ship Properties
-
+// Space Battle
 
 const ga = {
     hull: 20,
     firepower: 5,
     accuracy: .7
 };
-
+let alienQuant = Math.ceil(Math.random() * 10);
 let aliens = [];
-for (let i = 0; i < 6; i++) {
+for (let i = 0; i < alienQuant; i++) {
     aliens.push({
         hull: Math.round(Math.random() * 3) + 3,
         firepower: Math.round(Math.random() * 2) + 2,
@@ -24,51 +17,31 @@ for (let i = 0; i < 6; i++) {
 
 let war = () => {
     let alienNum = 0;
-    while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0 && alienNum < 1) {
-        let fightFlight = false;
-        do {let alienNum2 = 0;
-        let battle = () => {
+    while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) {
+        let exchange = () => {
             let volley = 0;
-            let exchange = () => {
-                while (aliens[alienNum2].hull > 0 && aliens[alienNum2].hull > 0) {
-                    Math.random() < ga.accuracy ? aliens[alienNum2].hull-= ga.firepower : null;
-                    Math.random() < aliens[alienNum2].accuracy ? ga.hull-= aliens[alienNum2].firepower : null;
-                    volley++
-                }
+            while (ga.hull > 0 && aliens[alienNum].hull > 0) {
+                Math.random() < ga.accuracy ? aliens[alienNum].hull-= ga.firepower : null;
+                Math.random() < aliens[alienNum].accuracy ? ga.hull-= aliens[alienNum].firepower : null;
+                volley++
             }
-            exchange();
-            alienNum2++
         }
-        alienNum++
-        battle();}
-        while (fightFlight);
+        exchange();
+        let answer = prompt(`There's another alien ship! Press 'f' to keep fighting or any other key to retreat.`, );
+        if (answer == 'f') {
+            alienNum++
+        } else {
+            break;
+        }
+        
     }
 }
-
 war();
 console.log(ga);
 console.log(aliens);
 
 
-// ## &#x1F47E; &#x1F47E; &#x1F47E; Code quality and code sharing
 
-// From the beginning, you will be writing your code **for other developers.**
-
-// Having to read and understand another developer's code is common practice. Get used to it now! In the 'real world', you will be in a position where you inherit someone else's code-base and are told to 'fix it' or to add a feature to the code.
-
-// What does this mean for your coding practices? 
-
-// - Use proper indentation **!!!!!!!** On the job, your code immediately fails a code review if indentation is not perfect.
-// - Use semantic variable and function names, and use a verb for your function/method names.
-// - What your code **does** should be self-evident.
-// - If a piece of code is hard to read have a comment above those few lines explaining what they do.
-
-// Your code should be as coherent to another developer as possible.  
-
-// <br>
-// <hr>
-
-// # &#x1F680; Bonuses
 
 // * The aliens send a random number of ships to attack Earth. Think of a reasonable range and implement it.
 
