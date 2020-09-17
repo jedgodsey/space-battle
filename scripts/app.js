@@ -19,6 +19,7 @@ for (let i = 0; i < alienQuant; i++) {
 
 //order of battle
 let war = () => {
+    ga.hull += Math.ceil(Math.random() * 5);
     let alienNum = 0;
     let targetShip = 0
     while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) {
@@ -44,8 +45,6 @@ let war = () => {
 war();
 console.log(ga);
 console.log(aliens);
-
-// * Scientists have developed a super targeting computer for your lasers. You now are asked which of the aliens you would like to hit with your lasers.
 
 // * Scientists have improved your ship's shields. They don't work that consistently, and only improve your hit points by a random number each time
 
