@@ -1,79 +1,84 @@
 // SPACE BATTLE //
 
-const ga = {
-    hull: 50,
-    firepower: 5,
-    accuracy: .7
-};
+let replay = () => {
+    let playAgain = prompt(`Would you like to play again? Press 'y'`, );
+    playAgain === 'y' ? spaceBattle() : null;
+}
 
-// determines alien force characteristics
-let alienQuant = Math.ceil(Math.random() * 10);
-let aliens = [];
-for (let i = 0; i < alienQuant; i++) {
-    let podQuant = Math.ceil(Math.random() * 5);
-    let alien = {
-        hull: Math.round(Math.random() * 3) + 3,
-        firepower: Math.round(Math.random() * 2) + 2,
-        accuracy: (Math.random() * .2) + .6,
-        pods: []
+let spaceBattle = () => {
+    let ga = {};
+    ga = {
+        hull: 1000,
+        firepower: 5,
+        accuracy: .7
     };
-    for (let k = 0; k < podQuant; k++) {
-        alien.pods.push({
-            hull: Math.round(Math.random() * 3),
+
+    // determines alien force characteristics
+    let alienQuant = Math.ceil(Math.random() * 8);
+    let aliens = [];
+    for (let i = 0; i < alienQuant; i++) {
+        let podQuant = Math.ceil(Math.random() * 4);
+        let alien = {
+            hull: Math.round(Math.random() * 3) + 3,
             firepower: Math.round(Math.random() * 2),
-            accuracy: (Math.random() * .2)
-        })
+            accuracy: (Math.random() * .2) + .6,
+            pods: []
+        };
+        for (let k = 0; k < podQuant; k++) {
+            alien.pods.push({
+                hull: Math.round(Math.random() * 3),
+                firepower: Math.round(Math.random() * 2),
+                accuracy: (Math.random() * .2)
+            })
+        }
+        aliens.push(alien);
     }
-    aliens.push(alien);
-}
-console.log(aliens);
-//order of battle
-let war = () => {
-    ga.hull += Math.ceil(Math.random() * 50);
-    let alienNum = 0;
-    let targetShip = 0
-    while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) {
-        let exchange = () => {
-            let volley = 0;
-            while (ga.hull > 0 && aliens[targetShip].hull > 0) {
-                // humans shoot at aliens
-                if (aliens[targetShip].pods.filter(item => item.hull > 0).length > 0) {
-                    let podAttack = 0;
-                    while (ga.hull > 0 && aliens[targetShip].pods[podAttack].hull > 0)
-                        Math.random() < ga.accuracy ? aliens[targetShip].pods[podAttack].hull-= ga.firepower : null;
-                        podAttack++
-                } else {
-                    Math.random() < ga.accuracy ? aliens[targetShip].hull-= ga.firepower : null;
+    //order of battle
+    let war = () => {
+        ga.hull += Math.ceil(Math.random() * 100);
+        let alienNum = 0;
+        let targetShip = 0
+        while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) {
+            let exchange = () => {
+                let volley = 0;
+                while (ga.hull > 0 && aliens[targetShip].hull > 0) {
+                    // humans shoot at aliens
+                    if (aliens[targetShip].pods.filter(item => item.hull > 0).length > 0) {
+                        let podAttack = 0;
+                        while (ga.hull > 0 && aliens[targetShip].pods[podAttack].hull > 0)
+                            Math.random() < ga.accuracy ? aliens[targetShip].pods[podAttack].hull-= ga.firepower : null;
+                            podAttack++
+                    } else {
+                        Math.random() < ga.accuracy ? aliens[targetShip].hull-= ga.firepower : null;
+                    }
+                    // aliens shoot at humans
+                    let randomSize = Math.ceil(Math.random() * aliens.length);
+                    let randomAttack = (ship) => {
+                        Math.random() < aliens[alienNum].accuracy ? ga.hull-= aliens[alienNum].firepower : null;
+                    }
+                    for (let j = 1; j < randomSize; j++) {
+                        randomAttack(aliens[Math.floor(Math.random() * aliens.length)]);
+                    }
+                    volley++
                 }
-                // aliens shoot at humans
-                let randomSize = Math.ceil(Math.random() * aliens.length);
-                let randomAttack = (ship) => {
-                    Math.random() < aliens[alienNum].accuracy ? ga.hull-= aliens[alienNum].firepower : null;
-                }
-                for (let j = 1; j < randomSize; j++) {
-                    randomAttack(aliens[Math.floor(Math.random() * aliens.length)]);
-                }
-                volley++
             }
+            exchange();
+            targetShip = prompt(`There's still ships threatening earth! Press 1-${aliens.length - 1} fire your laser at one of the ships, or press any other key to retreat.`, );
+            if (targetShip >= 0 && targetShip <= aliens.length - 1) {
+                alienNum++
+            } else {
+                break;
+            }
+            
         }
-        exchange();
-        targetShip = prompt(`There's still ships threatening earth! Press 1-${aliens.length} fire your laser at one of the ships, or press any other key to retreat.`, );
-        if (targetShip >= 0 && targetShip <= aliens.length - 1) {
-            alienNum++
-        } else {
-            break;
-        }
-        
+        console.log(ga);
+        console.log(aliens);
     }
+    war();
 }
-war();
-// console.log(ga);
-// console.log(aliens);
+spaceBattle();
+replay();
 
-// * Evil alien scientists have created an alien mega-ship. This mega-ship contains a number of "weapon pods" that each have their own individual hit points. These "weapon-pods" ( objects ) must all be destroyed before you can begin doing damage to the main ship, which also has its own hit points.
-
-// <br>
-// <hr>
 
 // # &#x1F680; Bonus Bonuses
 
