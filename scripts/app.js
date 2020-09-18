@@ -80,10 +80,6 @@ spaceBattle();
 replay();
 
 
-// # &#x1F680; Bonus Bonuses
-
-// * When the game is over, prompt the user if they would like to play again, and make it so the user can play again with all the values set back to default.
-
 // * So far the entire game is just one battle, with many aliens. Implement a game that consists of multiple battles where enemies respawn for a new battle at the end of the old battle. Keep track of points for the number of wins the player has.
 
 // * After every battle you are asked if you want to return to base and recharge your shields.
