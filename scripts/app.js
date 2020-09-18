@@ -1,32 +1,51 @@
 // SPACE BATTLE //
 
 const ga = {
-    hull: 20,
+    hull: 50,
     firepower: 5,
     accuracy: .7
 };
 
 // determines alien force characteristics
-let alienQuant = Math.ceil(Math.random() * 20);
+let alienQuant = Math.ceil(Math.random() * 10);
 let aliens = [];
 for (let i = 0; i < alienQuant; i++) {
-    aliens.push({
+    let podQuant = Math.ceil(Math.random() * 5);
+    let alien = {
         hull: Math.round(Math.random() * 3) + 3,
         firepower: Math.round(Math.random() * 2) + 2,
-        accuracy: (Math.random() * .2) + .6
-    });
+        accuracy: (Math.random() * .2) + .6,
+        pods: []
+    };
+    for (let k = 0; k < podQuant; k++) {
+        alien.pods.push({
+            hull: Math.round(Math.random() * 3),
+            firepower: Math.round(Math.random() * 2),
+            accuracy: (Math.random() * .2)
+        })
+    }
+    aliens.push(alien);
 }
-
+console.log(aliens);
 //order of battle
 let war = () => {
-    ga.hull += Math.ceil(Math.random() * 10);
+    ga.hull += Math.ceil(Math.random() * 50);
     let alienNum = 0;
     let targetShip = 0
     while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) {
         let exchange = () => {
             let volley = 0;
-            while (ga.hull > 0 && aliens[alienNum].hull > 0) {
-                Math.random() < ga.accuracy ? aliens[targetShip].hull-= ga.firepower : null;
+            while (ga.hull > 0 && aliens[targetShip].hull > 0) {
+                // humans shoot at aliens
+                if (aliens[targetShip].pods.filter(item => item.hull > 0).length > 0) {
+                    let podAttack = 0;
+                    while (ga.hull > 0 && aliens[targetShip].pods[podAttack].hull > 0)
+                        Math.random() < ga.accuracy ? aliens[targetShip].pods[podAttack].hull-= ga.firepower : null;
+                        podAttack++
+                } else {
+                    Math.random() < ga.accuracy ? aliens[targetShip].hull-= ga.firepower : null;
+                }
+                // aliens shoot at humans
                 let randomSize = Math.ceil(Math.random() * aliens.length);
                 let randomAttack = (ship) => {
                     Math.random() < aliens[alienNum].accuracy ? ga.hull-= aliens[alienNum].firepower : null;
@@ -48,11 +67,8 @@ let war = () => {
     }
 }
 war();
-console.log(ga);
-console.log(aliens);
-
-
-// * The aliens have gained emotions and now can attack more than one at a time.
+// console.log(ga);
+// console.log(aliens);
 
 // * Evil alien scientists have created an alien mega-ship. This mega-ship contains a number of "weapon pods" that each have their own individual hit points. These "weapon-pods" ( objects ) must all be destroyed before you can begin doing damage to the main ship, which also has its own hit points.
 
