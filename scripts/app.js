@@ -8,7 +8,7 @@ let replay = () => {
 let spaceBattle = () => {
     let ga = {};
     ga = {
-        hull: 20,
+        hull: 10,
         firepower: 5,
         accuracy: .7
     };
@@ -36,23 +36,22 @@ let spaceBattle = () => {
 
     // //order of battle
     let war = () => {
-        ga.hull += Math.ceil(Math.random() * 20);
+        ga.hull += Math.ceil(Math.random() * 10);
         let alienNum = 0;
         let targetShip = 0;
-        while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) { //while not all ships blown up
+        while (aliens.filter(item => item.hull > 0).length > 0 && ga.hull > 0) {
             let exchange = () => {
                 let volley = 0;
-                while (ga.hull > 0 && aliens[targetShip].hull > 0) { //while earth ship still standing and target ship still standing
-
+                while (ga.hull > 0 && aliens[targetShip].hull > 0) {
                     // humans shoot at aliens
-                    if (aliens[targetShip].pods.filter(item => item.hull > 0).length > 0) { //if there are alien pods left on this ship
+                    if (aliens[targetShip].pods.filter(item => item.hull > 0).length > 0) {
                         let podAttack = 0;
                         for (let i = 0; ga.hull > 0
                             //  && aliens[targetShip].pods[podAttack].hull > 0 
-                             && podAttack < aliens[targetShip].pods.length; i++) { //iterate until the pod (or ship) is dead
+                             && podAttack < aliens[targetShip].pods.length; i++) {
                             if (Math.random() < ga.accuracy) {
-                                aliens[targetShip].pods[podAttack].hull -= ga.firepower; //pod takes shots
-                                aliens[targetShip].pods[podAttack].hull <= 0 ? podAttack++ : null; //skip to next pod
+                                aliens[targetShip].pods[podAttack].hull -= ga.firepower;
+                                aliens[targetShip].pods[podAttack].hull <= 0 ? podAttack++ : null;
                             }
                         }
                     } else {
@@ -70,6 +69,12 @@ let spaceBattle = () => {
                 }
             }
             exchange();
+            aliens[targetShip].hull <= 0 ? console.log(`Alien ship ${targetShip + 1} has been destroyed!`) : null;
+
+            aliens.filter(item => item.hull > 0).length <= 0 ? console.log(`The alien armada has been destroyed! The people of earth rejoice!`) : null;
+
+            ga.hull <= 0 ? console.log(`The earth ship has been destroyed. Humanity is doomed!`) : null;
+
             targetShip = prompt(`There's still ships threatening earth! Press 1 through ${aliens.length} to fire your laser at one of the ships, or press any other key to retreat.`, ) - 1;
             if (targetShip >= 0 && targetShip < aliens.length) {
                 alienNum++
