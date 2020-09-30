@@ -2,13 +2,13 @@
 
 let replay = () => {
     let playAgain = prompt(`Would you like to play again? Press 'y'`, );
-    playAgain === 'y' ? spaceBattle() : null;
+    playAgain === 'y' ? spaceBattle() : console.log('Giving up? Next time earth needs help we will call somebody else');
 }
 
 let spaceBattle = () => {
     let ga = {};
     ga = {
-        hull: 10,
+        hull: 20,
         firepower: 5,
         accuracy: .7
     };
@@ -20,7 +20,7 @@ let spaceBattle = () => {
         let podQuant = Math.ceil(Math.random() * 4);
         let alien = {
             hull: Math.round(Math.random() * 3) + 3,
-            firepower: Math.round(Math.random() * 2),
+            firepower: Math.round(Math.random() * 2) + 2,
             accuracy: (Math.random() * .2) + .6,
             pods: []
         };
@@ -49,18 +49,33 @@ let spaceBattle = () => {
                         for (let i = 0; ga.hull > 0
                             //  && aliens[targetShip].pods[podAttack].hull > 0 
                              && podAttack < aliens[targetShip].pods.length; i++) {
+                            console.log('%c You fired on an alien pod!', 'font-style: italic; background: blue; border: 1px solid grey; color: white;');
                             if (Math.random() < ga.accuracy) {
+                                console.log('%c HIT!', 'font-weight: bold; background: red; border: 1px solid grey; color: black;')
                                 aliens[targetShip].pods[podAttack].hull -= ga.firepower;
-                                aliens[targetShip].pods[podAttack].hull <= 0 ? podAttack++ : null;
+                                aliens[targetShip].pods[podAttack].hull <= 0 ? podAttack++ : console.log('%c miss...', 'font-style: itaic;');
                             }
                         }
                     } else {
-                        Math.random() < ga.accuracy ? aliens[targetShip].hull -= ga.firepower : null; //alien ship takes shots
+                         //alien ship takes shots
+                        console.log('%c You fired on an alien Mothership!', 'font-style: italic; background: blue; border: 1px solid grey; color: white;');
+                        if (Math.random() < ga.accuracy) {
+                            console.log('%c HIT!', 'font-weight: bold; background: red; border: 1px solid grey; color: black;')
+                            aliens[targetShip].hull -= ga.firepower
+                        } else {
+                            console.log('%c miss...', 'font-style: itaic;');
+                        }
                     }
                     // aliens shoot at humans
                     let randomSize = Math.ceil(Math.random() * aliens.length);
                     let randomAttack = (ship) => {
-                        Math.random() < ship.accuracy ? ga.hull -= ship.firepower : null;
+                        console.log('%c An alien ship fired at you!', 'font-style: italic; background: green; border: 1px solid grey; color: white;');
+                        if (Math.random() < ship.accuracy) {
+                            console.log('%c HIT!', 'font-weight: bold; background: red; border: 1px solid grey; color: black;')
+                            ga.hull -= ship.firepower
+                        } else {
+                            console.log('%c Miss...', 'font-style: italic;');
+                        }
                     }
                     for (let j = 1; j < randomSize; j++) {
                         randomAttack(aliens[Math.floor(Math.random() * aliens.length)]);
@@ -75,7 +90,7 @@ let spaceBattle = () => {
 
             ga.hull <= 0 ? console.log(`The earth ship has been destroyed. Humanity is doomed!`) : null;
 
-            targetShip = prompt(`There's still ships threatening earth! Press 1 through ${aliens.length} to fire your laser at one of the ships, or press any other key to retreat.`, ) - 1;
+            targetShip = prompt(`There's still ships threatening earth! Press 1 through ${aliens.length} to fire your laser at one of the ships, or press any other key to retreat and fight another day.`, ) - 1;
             if (targetShip >= 0 && targetShip < aliens.length) {
                 alienNum++
             } else {
